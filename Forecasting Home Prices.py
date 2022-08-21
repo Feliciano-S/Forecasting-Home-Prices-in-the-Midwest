@@ -6,9 +6,8 @@ Predicting Home Prices in Iowa 🏠
 #First, load the dataset into a DataFrame named `df` and find the column that states the year sold. 
 #Next, modify the code below so that `Yr_Sold` column is parsed as a datetime object and set as the index.
 
-
+"""
 #Import data into DataFrame
-
 import pandas as pd
 
 url_train = 'https://drive.google.com/uc?export=download&id=1tmYLQ1RwIgjI_d66PWnlXU-5D_VxtiQc'
@@ -25,7 +24,7 @@ filepath = url_train
 
 df = wrangle(filepath)
 
-"""
+
 
 #Create a scatter plot that shows `'SalePrice'` as a function of `'Gr_Liv_Area'`.
 
@@ -42,12 +41,12 @@ plt.scatter(X, y)
 plt.xlabel('Gr_Liv_Area')
 plt.ylabel('SalePrice')
 plt.legend();
-
+"""
 ## II. Split Data
 
 #Build a model to predict the price at which a house will be sold, thw target is the `'SalePrice'` column.
 #Split `df` into `X` and `y`.
-
+"""
 target = 'SalePrice'
 # YOUR CODE HERE
 X = df.drop(columns=target)
@@ -60,23 +59,23 @@ cutoff = '2009'
 mask = X.index < cutoff
 X_train, y_train = X.loc[mask], y.loc[mask]
 X_val, y_val = X.loc[~mask], y.loc[~mask]
-
+"""
 ## III. Set Baseline
 
 #Establish a baseline. Calculate the mean housing price for the training set. Calculate the *mean absolute error* for a model that always predicts that mean.
 #Assign the mean absolute error to a variable named `baseline_mae`.
 
-
+"""
 from sklearn.metrics import mean_absolute_error
 
 df['SalePrice_Mean'] = df['SalePrice'].mean()
 baseline_mae = mean_absolute_error(df['SalePrice'],df['SalePrice_Mean'])
 print('Baseline MAE:', baseline_mae)
-
+"""
 ## IV. Build Models
 
 #Build and train a linear regression model that predicts home sale price. Your model should have the following components:
-
+"""
 - A `OneHotEncoder` for categorical features.
 - A `StandardScaler` so that you can compare your model coefficients after training.
 - A `pipeline` that combines transformers and predictor.
@@ -111,13 +110,13 @@ model_r = make_pipeline(
     )
     
 model_r.fit(X_train, y_train);
-
+"""
 ## V. Check Metrics
 
 #Compare your models metrics by calculating their mean absolute error for the training and validation sets. 
 #The validation MAE for your Ridge model should be lower than your `baseline_mae`.
 
-
+"""
 model_lr_training_mae = mean_absolute_error(y_train, model_lr.predict(X_train))
 model_lr_validation_mae =  mean_absolute_error(y_val, model_lr.predict(X_val))
 
